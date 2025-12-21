@@ -5,29 +5,30 @@ from urllib.parse import quote_plus
 # ============== CONFIG ==============
 CSV_FILE = "train.csv"
 
-MYSQL_USER = "root"
-RAW_PASSWORD = "Chinna@11"   # keep your real password
-MYSQL_PASSWORD = quote_plus(RAW_PASSWORD)  # fixes @ or special chars
-MYSQL_HOST = "localhost"
-MYSQL_PORT = 3306
+# Type your Sql connection details in  delow doted lines
+MYSQL_USER = "..."
+RAW_PASSWORD = "........"   # keep your real password
+MYSQL_PASSWORD = ............  # fixes @ or special chars
+MYSQL_HOST = "......."
+MYSQL_PORT = ....
 MYSQL_DB = "retail_sales"
 TABLE_NAME = "sales_cleaned"
 
 # ====================================
 
 def extract_data():
-    print("📥 Extracting data...")
+    print(" Extracting data...")
     df = pd.read_csv(CSV_FILE)
     print("Columns:", list(df.columns))
     return df
 
 def transform_data(df):
-    print("🔧 Transforming data...")
+    print(" Transforming data...")
 
-    # 1. Remove duplicates
+    # 1. Removes duplicates
     df = df.drop_duplicates()
 
-    # 2. Convert dates
+    # 2. Converts dates
     df["Order Date"] = pd.to_datetime(df["Order Date"], errors="coerce")
     df["Ship Date"] = pd.to_datetime(df["Ship Date"], errors="coerce")
 
@@ -39,17 +40,17 @@ def transform_data(df):
     df["Order_Day"] = df["Order Date"].dt.day
     df["Order_Weekday"] = df["Order Date"].dt.day_name()
 
-    # 4. Create sales KPIs (since no quantity column)
+    # 4. Creates sales KPIs (since no quantity column)
     df["Avg_Daily_Sales"] = df["Sales"] / df.groupby("Order Date")["Sales"].transform("count")
 
-    # 5. Rename columns for SQL friendliness
+    # 5. Renames columns for SQL friendliness
     df = df.rename(columns=lambda x: x.strip().replace(" ", "_"))
 
-    print("🔧 Transformation complete.")
+    print(" Transformation complete.")
     return df
 
 def load_data(df):
-    print("📦 Loading to MySQL...")
+    print(" Loading to MySQL...")
 
     conn_str = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DB}"
     safe_print = conn_str.replace(MYSQL_PASSWORD, "****")
@@ -58,7 +59,7 @@ def load_data(df):
     engine = create_engine(conn_str)
     df.to_sql(TABLE_NAME, engine, if_exists="replace", index=False)
 
-    print("✅ Load complete!")
+    print(" Load complete!")
 
 def main():
     df = extract_data()
@@ -68,3 +69,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
