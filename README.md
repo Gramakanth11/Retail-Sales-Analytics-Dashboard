@@ -32,7 +32,19 @@ This project demonstrates an end-to-end Data Analytics workflow using Python, SQ
 - Category sales trends over time
 
 ### Page 4 – Insights Summary
-- Key business findings and trends
+#### Key Business Insights
+Sales Performance
+Technology category generates the highest revenue, followed by Furniture.
+The West region is the top-performing region in terms of total sales.
+Consumer segment contributes the largest share of revenue.
+#### Customer Insights
+A small group of top customers contributes a significant portion of overall sales.
+Average Order Value is highest in the Corporate segment.
+Sales concentration is higher in select states and major cities.
+#### Product Insights
+Top 10 products account for a large share of total revenue.
+Certain sub-categories consistently outperform others across years.
+Category-level trends show stable growth with seasonal variations.
 
 ## 📈 Key Outcomes
 - Identified top-performing regions, categories, and products
